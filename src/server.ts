@@ -1,13 +1,19 @@
-/* eslint-disable prettier/prettier */
+
 import fastify from 'fastify'
+import { PrismaClient } from '@prisma/client'
+
 const app = fastify()
-app.get('/hello', () => {
-  return 'hello World'
+const prisma = new PrismaClient()
+
+app.get('/users', async () => {
+	const users = await prisma.user.findMany()
+
+	return users
 })
 app
-  .listen({
-    port: 3333,
-  })
-  .then(() => {
-    console.log('🚀🚀 HTTP Server running on http://localhost:3333')
-  })
+	.listen({
+		port: 3333,
+	})
+	.then(() => {
+		console.log('🚀🚀 HTTP Server running on http://localhost:3333/')
+	})
